@@ -1,4 +1,3 @@
-
 import classNames from 'classnames/bind';
 import styles from './Header.module.scss';
 import images from '~/assets/images';
@@ -21,10 +20,12 @@ import {
     faSignOut,
     faEnvelope,
 } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 import Button from '~/components/Button';
 import Menu from '~/components/Popper/Menu';
-import Search from '../Search'
+import Search from '../Search';
+import config from '~/config';
 
 const cx = classNames.bind(styles);
 
@@ -60,7 +61,6 @@ const MENU_ITEMS = [
 ];
 
 function Header() {
-   
     const currentUser = true;
 
     const handleMenuChange = (menuItem) => {
@@ -86,41 +86,43 @@ function Header() {
             title: 'Settings',
             to: '/settings',
         },
-       
+
         ...MENU_ITEMS,
         {
             icon: <FontAwesomeIcon icon={faSignOut} />,
             title: 'Log out',
             to: '/logout',
             separate: true,
-        }
-    ]
+        },
+    ];
 
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <img src={images.logo} alt="TikTok" />
+                <Link to={config.routes.home} className={cx('logo-link')}>
+                    <img src={images.logo} alt="TikTok" className={cx('logo')} />
+                </Link>
+
                 <Search />
 
                 <div className={cx('actions')}>
                     {currentUser ? (
                         <>
-                            <Tippy delay={[0,200]} content='Upload video' placement='bottom'>
+                            <Tippy delay={[0, 200]} content="Upload video" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <FontAwesomeIcon icon={faCloudUpload} />
                                 </button>
                             </Tippy>
-                            <Tippy delay={[0,200]} content='Message' placement='bottom'>
+                            <Tippy delay={[0, 200]} content="Message" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <FontAwesomeIcon icon={faMessage} />
                                 </button>
                             </Tippy>
-                            <Tippy delay={[0,200]} content='Box Alert' placement='bottom'>
+                            <Tippy delay={[0, 200]} content="Box Alert" placement="bottom">
                                 <button className={cx('action-btn')}>
                                     <FontAwesomeIcon icon={faEnvelope} />
                                 </button>
                             </Tippy>
-                            
                         </>
                     ) : (
                         <>
@@ -128,7 +130,7 @@ function Header() {
                             <Button primary>Log in</Button>
                         </>
                     )}
-                    <Menu items={currentUser? userMenu :MENU_ITEMS} onChange={handleMenuChange}>
+                    <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {currentUser ? (
                             <Image
                                 className={cx('user-avatar')}
